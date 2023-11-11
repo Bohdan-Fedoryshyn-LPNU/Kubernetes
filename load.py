@@ -1,5 +1,5 @@
 import random
-
+import re
 import requests
 import time
 
@@ -15,6 +15,23 @@ endpoint = "/fibonacci"
 # Parameters to include in the request
 # Initialize a list to store response times
 response_times = []
+response_ip = {}
+
+def calculate_fibonacci(response_text):
+    # Define a regular expression pattern to extract number, result, and IP address
+    pattern = r"pod_ip: ([^<]+)"
+
+    # Search for the pattern in the response text
+    match = re.search(pattern, response_text)
+
+    if match:
+        ip_address = str(match.group(1))
+        if ip_address in response_ip:
+            response_ip[ip_address] = response_ip[ip_address] +1
+
+        else:
+            response_ip[ip_address] = 1
+
 
 # Send multiple GET requests
 for i in range(num_requests):
