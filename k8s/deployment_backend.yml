@@ -17,3 +17,19 @@ spec:
           image: brunoauditore/fibonacci-server
           ports:
             - containerPort: 80
+          volumeMounts:
+          - name: fibonacci-volume
+            mountPath: /usr/share/
+
+      initContainers:
+        - name: init-myservice
+          image: busybox:1.28
+          command: ['sh', '-c', "echo $(hostname -I) > /usr/share/info.txt"]
+          volumeMounts:
+          - name: fibonacci-volume
+            mountPath: /usr/share/
+
+      volumes:
+        - name: fibonacci-volume
+        emptyDir:
+          sizeLimit: 500Mi
