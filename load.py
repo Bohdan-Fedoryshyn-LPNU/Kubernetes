@@ -19,9 +19,12 @@ response_ip = {}
 
 def calculate_fibonacci(response_text):
     # Define a regular expression pattern to extract number, result, and IP address
-    pattern = r"pod_ip: ([^<]+)"
 
-    # Search for the pattern in the response text
+    pattern = r"pod_ip: ([^<]+)"
+    print(response_text)
+
+
+# Search for the pattern in the response text
     match = re.search(pattern, response_text)
     if match:
         ip_address = str(match.group(1))
