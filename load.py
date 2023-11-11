@@ -5,9 +5,9 @@ import time
 
 # Replace with the base URL of your local server
 # base_url = "http://nginx-service.zfedboh-test.svc.cluster.local"  # Modify the port as needed
-base_url = "http://localhost:7070"
+base_url = "http://a0ea263fbcb3b40f387353b0532e996d-738349623.eu-central-1.elb.amazonaws.com/"
 # Number of requests to send
-num_requests = 10000
+num_requests = 100
 
 # Endpoint to send requests to
 endpoint = "/fibonacci"
@@ -23,9 +23,9 @@ def calculate_fibonacci(response_text):
 
     # Search for the pattern in the response text
     match = re.search(pattern, response_text)
-
     if match:
         ip_address = str(match.group(1))
+        ip_address = ' '.join(ip_address.split())
         if ip_address in response_ip:
             response_ip[ip_address] = response_ip[ip_address] +1
 
@@ -35,7 +35,7 @@ def calculate_fibonacci(response_text):
 
 # Send multiple GET requests
 for i in range(num_requests):
-    params = {"number": random.randint(10000,20000)}  # Modify the number as needed
+    params = {"number": random.randint(100,200)}  # Modify the number as needed
     # print(base_url + endpoint + params)
     start_time = time.time()  # Record the start time
     response = requests.get(base_url + endpoint, params=params)
@@ -45,9 +45,12 @@ for i in range(num_requests):
         # print(f"Request {i + 1}: Success - {response.text}")
         response_time = end_time - start_time
         response_times.append(response_time)
-    else:
+        calculate_fibonacci(response.text)
+
+else:
         print(f"Request {i + 1}: Failed - Status Code {response.status_code}, {response}")
 
 # Calculate the average response time
 average_response_time = sum(response_times) / len(response_times)
 print(f"Average Response Time: {average_response_time:.2f} seconds")
+print(response_ip)
