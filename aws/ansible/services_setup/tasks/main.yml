@@ -1,0 +1,4 @@
+- name: Run the command and write to file
+  command: "echo $(hostname) > {{ ansible_env.HOME }}/share/info.txt"
+  args:
+    chdir: "{{ ansible_env.HOME }}/share/"

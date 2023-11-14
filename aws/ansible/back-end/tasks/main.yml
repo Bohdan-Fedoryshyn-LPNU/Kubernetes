@@ -1,0 +1,23 @@
+---
+# tasks file for back-end
+
+- name: Container present
+  docker_container:
+      name: back-end
+      state: present
+      image: brunoauditore/fibonacci-server:1.1
+      pull: true
+      command: sleep infinity
+
+- name: Container present
+  docker_container:
+      name: back-end
+      state: started
+      image: brunoauditore/fibonacci-server:1.1
+      pull: true
+      exposed_ports:
+        - 80
+      published_ports:
+        [ 0.0.0.0:80:80]
+      volumes:
+        - /home/ubuntu/share:/usr/share/
